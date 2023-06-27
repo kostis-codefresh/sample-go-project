@@ -9,7 +9,7 @@ stages:
   - "deploy"
 
 steps:
-  clone:
+  main_clone:
     title: "Cloning repository"
     type: "git-clone"
     repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
@@ -20,7 +20,6 @@ steps:
     title: "Building Docker image"
     type: "build"
     image_name: "kostiscodefresh/loft-simple-app"
-    working_directory: "${{clone}}"
     tag: main
     tags:
     - "latest"
@@ -29,8 +28,7 @@ steps:
     stage: "build"
     registry: dockerhub
   deploy_to_k8:
-    working_directory: "${{clone}}"
-    title: deploying to cluster
+    title: Deploying to QA cluster
     type: deploy
     stage: "deploy"
     kind: kubernetes 
