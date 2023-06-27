@@ -35,6 +35,15 @@ steps:
     cluster:  qa-virtual-cluster
     namespace: default
     file_path: ./manifest.yml
-
+    env:
+     name: my-qa-env
+     endpoints:
+     - name: app
+       url: https://qa.tf-demo.sales-dev.codefresh.io
+     type: kubernetes
+     change: ${{CF_COMMIT_MESSAGE}}
+     filters:
+     - cluster: qa-virtual-cluster
+       namespace: default   
 
 
