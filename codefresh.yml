@@ -6,6 +6,7 @@ version: "1.0"
 stages:
   - "clone"
   - "build"
+  - "deploy"
 
 steps:
   clone:
@@ -15,7 +16,7 @@ steps:
     revision: "main"
     stage: "clone"
 
-  build:
+  build_step:
     title: "Building Docker image"
     type: "build"
     image_name: "kostiscodefresh/loft-simple-app"
@@ -28,14 +29,14 @@ steps:
     stage: "build"
     registry: dockerhub
   deploy_to_k8:
+    working_directory: "${{clone}}"
     title: deploying to cluster
     type: deploy
+    stage: "deploy"
     kind: kubernetes 
     cluster:  qa-virtual-cluster
     namespace: default
-    service: my-loft-app
-    candidate:
-      image: ${{build_step}}
-      registry: dockerhub
-  
+    file_path: ./manifest.yml
+
+
 

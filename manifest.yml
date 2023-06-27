@@ -1,0 +1,34 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: simple-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: trivial-go-web-app
+  template:
+    metadata:
+      labels:
+        app: trivial-go-web-app
+    spec:
+      containers:
+      - name: webserver-simple
+        image: docker.io/kostiscodefresh/loft-simple-app
+        ports:
+        - containerPort: 8080
+---        
+apiVersion: v1
+kind: Service
+metadata:
+  name: simple-service
+spec:
+  type: ClusterIP
+  selector:
+    app: trivial-go-web-app
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 8080
