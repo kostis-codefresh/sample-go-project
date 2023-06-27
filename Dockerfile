@@ -7,7 +7,7 @@ COPY . .
 RUN CGO_ENABLED=0 GOOS=linux go build 
 
 FROM scratch
-COPY --from=build-env /tmp/simple-go-app/simple-web-app /app/simple-web-app
+COPY --from=build-env /tmp/simple-go-app/sample-go-project /app/sample-go-project
 
 EXPOSE 8080
-CMD ["/app/simple-web-app"]
+CMD ["/app/sample-go-project"]

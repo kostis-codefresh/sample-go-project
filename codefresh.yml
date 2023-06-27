@@ -11,7 +11,7 @@ steps:
   clone:
     title: "Cloning repository"
     type: "git-clone"
-    repo: "kostis-codefresh/sample-go-project"
+    repo: '${{CF_REPO_OWNER}}/${{CF_REPO_NAME}}'
     revision: "main"
     stage: "clone"
 
@@ -27,6 +27,15 @@ steps:
     dockerfile: "Dockerfile"
     stage: "build"
     registry: dockerhub
-
+  deploy_to_k8:
+    title: deploying to cluster
+    type: deploy
+    kind: kubernetes 
+    cluster:  qa-virtual-cluster
+    namespace: default
+    service: my-loft-app
+    candidate:
+      image: ${{build_step}}
+      registry: dockerhub
   
 
